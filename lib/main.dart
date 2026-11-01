@@ -73,7 +73,7 @@ class SupabaseDashboard extends StatelessWidget {
                 color: SupabaseColors.emerald,
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Icon(Icons.bolt, color: Colors.black, size: 20),
+              child: Image.asset('assets/logo.png', ),
             ),
             const SizedBox(width: 12),
             Text(

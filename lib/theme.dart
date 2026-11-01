@@ -5,8 +5,8 @@ class SupabaseColors {
   static const Color canvas = Color(0xFF171717);
   static const Color surface = Color(0xFF1C1C1C);
   static const Color surfaceRaised = Color(0xFF272727);
-  static const Color emerald = Color(0xFF3ECF8E);
-  static const Color emeraldLink = Color(0xFF00C573);
+  static const Color emerald = Color(0xFFef8a01);
+  static const Color emeraldLink = Color(0xFFF7A93F);
   static const Color textPrimary = Color(0xFFEDEDED);
   static const Color textSecondary = Color(0xFFA1A1A1);
   static const Color border = Color(0xFF2E2E2E);
