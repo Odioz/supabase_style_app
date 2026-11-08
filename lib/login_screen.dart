@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'theme.dart';
+import 'design/theme.dart';
 
 // Импортируйте ваши классы из main.dart или отдельных файлов:
 // import 'design/supabase_colors.dart';

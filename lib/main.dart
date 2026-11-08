@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'theme.dart';
-import 'login_screen.dart';
+import 'design/theme.dart';
+//import 'login_screen.dart';
 
 void main() {
   runApp(const SupabaseStyleApp());
@@ -15,7 +15,7 @@ class SupabaseStyleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Supabase Style App',
+      title: 'Пожарка',
       debugShowCheckedModeBanner: false,
       theme: SupabaseTheme.dark,
       home: //const LoginScreen(),
@@ -77,7 +77,7 @@ class SupabaseDashboard extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Text(
-              'supabase',
+              'ОГПС №23 по МО "Намский улус"',
               style: GoogleFonts.inter(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -86,20 +86,22 @@ class SupabaseDashboard extends StatelessWidget {
             ),
           ],
         ),
-        // Ссылки навигации
-        Row(
-          children: [
-            _navLink('Product'),
-            const SizedBox(width: 24),
-            _navLink('Developers'),
-            const SizedBox(width: 24),
-            _navLink('Pricing'),
-            const SizedBox(width: 24),
-            _navLink('Blog'),
-          ],
-        ),
       ],
     );
+    //     // Ссылки навигации
+    //     Row(
+    //       children: [
+    //         _navLink('Product'),
+    //         const SizedBox(width: 24),
+    //         _navLink('Developers'),
+    //         const SizedBox(width: 24),
+    //         _navLink('Pricing'),
+    //         const SizedBox(width: 24),
+    //         _navLink('Blog'),
+    //       ],
+    //     ),
+    //   ],
+    //);
   }
 
   Widget _navLink(String text) {
