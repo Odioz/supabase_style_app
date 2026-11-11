@@ -167,23 +167,23 @@ class _EmployeeTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Аватар с инициалами
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: SupabaseColors.surfaceRaised,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              _initials(employee.fio),
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: SupabaseColors.textPrimary,
-              ),
-            ),
-          ),
+          // Container(
+          //   width: 44,
+          //   height: 44,
+          //   decoration: BoxDecoration(
+          //     color: SupabaseColors.surfaceRaised,
+          //     borderRadius: BorderRadius.circular(10),
+          //   ),
+          //   alignment: Alignment.center,
+          //   child: Text(
+          //     _initials(employee.fio),
+          //     style: GoogleFonts.inter(
+          //       fontSize: 14,
+          //       fontWeight: FontWeight.w600,
+          //       color: SupabaseColors.textPrimary,
+          //     ),
+          //   ),
+          // ),
           const SizedBox(width: 16),
           // ФИО + должность
           Expanded(
@@ -193,7 +193,7 @@ class _EmployeeTile extends StatelessWidget {
                 Text(
                   employee.fio,
                   style: GoogleFonts.inter(
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: SupabaseColors.textPrimary,
                   ),
@@ -202,13 +202,13 @@ class _EmployeeTile extends StatelessWidget {
                 Text(
                   doljnost,
                   style: GoogleFonts.inter(
-                    fontSize: 13,
+                    fontSize: 14,
                     color: SupabaseColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 10),
                 // Статус-пилюля
-                if (status != null)
+                if (status != null && status!.name.isNotEmpty)
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -244,11 +244,11 @@ class _EmployeeTile extends StatelessWidget {
     );
   }
 
-  String _initials(String fio) {
-    final parts = fio.trim().split(RegExp(r'\s+'));
-    if (parts.length >= 2) {
-      return '${parts[0][0]}${parts[1][0]}';
-    }
-    return fio.isNotEmpty ? fio[0] : '?';
-  }
+  // String _initials(String fio) {
+  //   final parts = fio.trim().split(RegExp(r'\s+'));
+  //   if (parts.length >= 2) {
+  //     return '${parts[0][0]}${parts[1][0]}';
+  //   }
+  //   return fio.isNotEmpty ? fio[0] : '?';
+  // }
 }

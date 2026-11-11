@@ -37,16 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: SupabaseColors.emerald,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.local_fire_department,
-                  color: Colors.black, size: 20),
+              child: Image.asset('assets/logo.png', fit: BoxFit.contain ),
             ),
             const SizedBox(width: 12),
             Text(
-              'Пожарка',
+              'ОГПС РС(Я) №23 по МО "Намский улус"',
               style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: SupabaseColors.textPrimary,
+                color: SupabaseColors.emerald,
               ),
             ),
           ],
@@ -190,17 +189,17 @@ class _UnitCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: SupabaseColors.emerald.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(Icons.home_work_outlined,
-                    color: SupabaseColors.emerald, size: 22),
-              ),
-              const SizedBox(width: 16),
+              // Container(
+              //   width: 44,
+              //   height: 44,
+              //   decoration: BoxDecoration(
+              //     color: SupabaseColors.emerald.withValues(alpha: 0.15),
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: const Icon(Icons.home_work_outlined,
+              //       color: SupabaseColors.emerald, size: 22),
+              // ),
+              // const SizedBox(width: 16),
               Expanded(
                 child: Text(
                   name,

@@ -5,17 +5,17 @@ class Repository {
   final _db = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> loadPodrazdeleniya() async {
-    final data = await _db.from('podrazdeleniya').select().order('id');
+    final data = await _db.from('podrazdeleniya').select().order('id', ascending: true );
     return List<Map<String, dynamic>>.from(data);
   }
 
   Future<List<Map<String, dynamic>>> loadDoljnosti() async {
-    final data = await _db.from('doljnosti').select().order('id');
+    final data = await _db.from('doljnosti').select().order('id', ascending: true );
     return List<Map<String, dynamic>>.from(data);
   }
 
   Future<List<Map<String, dynamic>>> loadStatusy() async {
-    final data = await _db.from('statusy').select().order('id');
+    final data = await _db.from('statusy').select().order('id', ascending: true );
     return List<Map<String, dynamic>>.from(data);
   }
 
@@ -24,7 +24,7 @@ class Repository {
         .from('personal')
         .select()
         .eq('podr', podr)
-        .order('fio');
+        .order('id',  ascending: true );
     return (data as List).map((e) => Employee.fromMap(e)).toList();
   }
 }
