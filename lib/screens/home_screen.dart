@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(width: 12),
             Text(
-              'ОГПС РС(Я) №23 по МО "Намский улус"',
+              'Пожарка',
               style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,

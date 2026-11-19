@@ -11,7 +11,7 @@ Future<void> main() async {
 
   await Supabase.initialize(
     url: 'https://locdjzuulxtekfjjsshl.supabase.co',
-    publishableKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvY2RqenV1bHh0ZWtmampzc2hsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1NjczMTAsImV4cCI6MjA5NjE0MzMxMH0.suFVGiCjxK3Zt_IF92TXmU7DaUrRKll8MbEsy2shJjs',
+    publishableKey: '',
   );
 
   runApp(const PojarkaApp());
@@ -24,7 +24,7 @@ class PojarkaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Пожарка',
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,  
       theme: SupabaseTheme.dark,
       home: const HomeScreen(), // без авторизации — сразу к подразделениям
     );
