@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:supabase_style_app/widgets/content_width.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../design/theme.dart';
 import '../data/repository.dart';
@@ -94,18 +95,21 @@ class _UnitScreenState extends State<UnitScreen> {
               ),
             );
           }
-          return ListView.separated(
-            padding: const EdgeInsets.all(20),
-            itemCount: data.employees.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
-            itemBuilder: (context, i) {
-              final e = data.employees[i];
-              return _EmployeeTile(
-                employee: e,
-                doljnost: data.doljMap[e.dolj] ?? '—',
-                status: data.statusMap[e.status],
-              );
-            },
+          return ContentWidth(
+            maxWidth: 800,
+            child: ListView.separated(
+              padding: const EdgeInsets.all(20),
+              itemCount: data.employees.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              itemBuilder: (context, i) {
+                final e = data.employees[i];
+                return _EmployeeTile(
+                  employee: e,
+                  doljnost: data.doljMap[e.dolj] ?? '—',
+                  status: data.statusMap[e.status],
+                );
+              },
+            ),
           );
         },
       ),
@@ -245,11 +249,4 @@ class _EmployeeTile extends StatelessWidget {
     );
   }
 
-  // String _initials(String fio) {
-  //   final parts = fio.trim().split(RegExp(r'\s+'));
-  //   if (parts.length >= 2) {
-  //     return '${parts[0][0]}${parts[1][0]}';
-  //   }
-  //   return fio.isNotEmpty ? fio[0] : '?';
-  // }
 }

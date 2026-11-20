@@ -2,9 +2,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/employee.dart';
 
 class Repository {
-   late List<Map<String, dynamic>>? _podrzCache;
-  late List<Map<String, dynamic>>? _doljCache;
-  late List<Map<String, dynamic>>? _statusCache;
+  List<Map<String, dynamic>>? _podrzCache;
+  List<Map<String, dynamic>>? _doljCache;
+  List<Map<String, dynamic>>? _statusCache;
 
   final _db = Supabase.instance.client;
 
@@ -37,4 +37,28 @@ class Repository {
         .order('id',  ascending: true );
     return (data as List).map((e) => Employee.fromMap(e)).toList();
   }
+
+  // Счётчики статусов по каждому подразделению: { podr: { statusId: count } }
+  Future<Map<int, Map<int, int>>> loadStatusCounts() async {
+   final data = await _db.from('personal').select('podr, status');
+   final result = <int, Map<int, int>>{};
+   for (final row in (data as List)) {
+     final podr = row['podr'] as int;
+     final status = row['status'] as int;
+     result.putIfAbsent(podr, () => {});
+     result[podr]![status] = (result[podr]![status] ?? 0) + 1;
+   }
+   return result;
+ }
+
+  // Поиск сотрудников по ФИО по всему отряду
+  Future<List<Employee>> searchEmployees(String query) async {
+    final data = await _db
+      .from('personal')
+      .select()
+      .ilike('fio', '%$query%')
+      .order('fio')
+      .limit(50);
+  return (data as List).map((e) => Employee.fromMap(e)).toList();
+ }
 }
