@@ -23,7 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    late final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: SupabaseColors.surface,
         elevation: 0,
@@ -52,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => Scaffold.of(context).openEndDrawer(),
-            icon: const Icon(Icons.menu, color: SupabaseColors.textPrimary),
+            onPressed: () => scaffoldKey.currentState?.openEndDrawer(),
+            icon: const Icon(Icons.menu, color: SupabaseColors.emerald),
           ),
           const SizedBox(width: 8),
         ],
@@ -94,10 +96,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   if (snapshot.hasError) {
-                    return Text(
-                      'Ошибка загрузки: ${snapshot.error}',
-                      style: const TextStyle(color: SupabaseColors.error),
-                    );
+                   return Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SupabaseAlert(
+                        message: 'Не удалось загрузить данные: ${snapshot.error}',
+                        variant: SupabaseAlertVariant.error,
+                        ),
+                      );
                   }
                   final units = snapshot.data ?? [];
                   return _buildUnitGrid(units);

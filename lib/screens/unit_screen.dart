@@ -77,13 +77,14 @@ class _UnitScreenState extends State<UnitScreen> {
             );
           }
           if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                'Ошибка: ${snapshot.error}',
-                style: const TextStyle(color: SupabaseColors.error),
-              ),
-            );
-          }
+                   return Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SupabaseAlert(
+                        message: 'Ошибка: ${snapshot.error}',
+                        variant: SupabaseAlertVariant.error,
+                        ),
+                      );
+                  }
           final data = snapshot.data!;
           if (data.employees.isEmpty) {
             return const Center(
@@ -184,7 +185,7 @@ class _EmployeeTile extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          const SizedBox(width: 16),
+          //const SizedBox(width: 16),
           // ФИО + должность
           Expanded(
             child: Column(
