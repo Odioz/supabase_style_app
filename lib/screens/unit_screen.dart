@@ -55,13 +55,13 @@ class _UnitScreenState extends State<UnitScreen> {
       appBar: AppBar(
         backgroundColor: SupabaseColors.surface,
         elevation: 0,
-        iconTheme: const IconThemeData(color: SupabaseColors.textPrimary),
+        iconTheme: const IconThemeData(color: SupabaseColors.emerald),
         title: Text(
           widget.unitName,
           style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: SupabaseColors.textPrimary,
+            color: SupabaseColors.emerald,
           ),
         ),
         bottom: PreferredSize(

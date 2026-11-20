@@ -111,13 +111,13 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         backgroundColor: SupabaseColors.surface,
         elevation: 0,
-        iconTheme: const IconThemeData(color: SupabaseColors.textPrimary),
+        iconTheme: const IconThemeData(color: SupabaseColors.emerald),
         title: Text(
           'Поиск сотрудника',
           style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: SupabaseColors.textPrimary,
+            color: SupabaseColors.emerald,
           ),
         ),
         bottom: PreferredSize(

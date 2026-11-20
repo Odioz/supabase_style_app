@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-            icon: const Icon(Icons.menu, color: SupabaseColors.textPrimary),
+            icon: const Icon(Icons.menu, color: SupabaseColors.emerald),
           ),
           const SizedBox(width: 8),
         ],
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               'ПОДРАЗДЕЛЕНИЯ',
               style: GoogleFonts.sourceCodePro(
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: SupabaseColors.textSecondary,
                 letterSpacing: 1.2,
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: SupabaseColors.textPrimary,
+                  color: SupabaseColors.emerald,
                 ),
               ),
               onTap: () {
