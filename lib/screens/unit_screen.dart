@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_style_app/widgets/content_width.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../design/theme.dart';
+import '../widgets/status_count.dart';
 import '../data/repository.dart';
 import '../models/employee.dart';
+import '../widgets/phone_action.dart';
 
 class UnitScreen extends StatefulWidget {
   final int unitId;
@@ -37,9 +38,9 @@ class _UnitScreenState extends State<UnitScreen> {
     };
     final statusMap = {
       for (final s in results[1] as List<Map<String, dynamic>>)
-        s['id'] as int: _StatusInfo(
+        s['id'] as int: StatusInfo(
           name: s['name'] as String,
-          color: _hexToColor(s['color'] as String),
+          color: hexToColor(s['color'] as String),
         )
     };
     return _UnitData(
@@ -87,6 +88,9 @@ class _UnitScreenState extends State<UnitScreen> {
                       );
                   }
           final data = snapshot.data!;
+          if (widget.unitId == 2) {
+            return _buildKaraulList(data);
+          }
           if (data.employees.isEmpty) {
             return const Center(
               child: Text(
@@ -117,10 +121,165 @@ class _UnitScreenState extends State<UnitScreen> {
   }
 }
 
+Widget _buildKaraulList(_UnitData data) {
+  // 0 = "ПЧ-1 (все)" — сотрудники без привязки к караулу
+  final groups = <int, List<Employee>>{
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+  };
+  for (final e in data.employees) {
+    // Всё, что не 1..4, кладём в "ПЧ-1 (все)"
+    if (e.karaul >= 1 && e.karaul <= 4) {
+      groups[e.karaul]!.add(e);
+    } else {
+      groups[0]!.add(e);
+    }
+  }
+
+  final labels = {
+    0: 'ПЧ-1 (все)',
+    1: '1 караул',
+    2: '2 караул',
+    3: '3 караул',
+    4: '4 караул',
+  };
+
+  return ContentWidth(
+    maxWidth: 800,
+    child: ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        for (final k in [0, 1, 2, 3, 4])
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _KaraulSection(
+              title: labels[k]!,
+              employees: groups[k]!,
+              doljMap: data.doljMap,
+              statusMap: data.statusMap,
+              //initiallyExpanded: k == 0, // первый раскрыт по умолчанию
+            ),
+          ),
+      ],
+    ),
+  );
+}
+
+class _KaraulSection extends StatelessWidget {
+  final String title;
+  final List<Employee> employees;
+  final Map<int, String> doljMap;
+  final Map<int, StatusInfo> statusMap;
+  final bool initiallyExpanded;
+
+  const _KaraulSection({
+    required this.title,
+    required this.employees,
+    required this.doljMap,
+    required this.statusMap,
+    this.initiallyExpanded = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: SupabaseColors.surface,
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: SupabaseColors.border),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Theme(
+        // Убираем стандартные разделители ExpansionTile
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          initiallyExpanded: initiallyExpanded,
+          tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          iconColor: SupabaseColors.emerald,
+          collapsedIconColor: SupabaseColors.textSecondary,
+          title: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  mainAxisSize: MainAxisSize.min,
+  children: [
+    Row(
+      children: [
+        Expanded(
+          child: Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: SupabaseColors.textPrimary,
+            ),
+          ),
+        ),
+        // Общий счётчик — как раньше
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          decoration: BoxDecoration(
+            color: SupabaseColors.emerald.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(9999),
+            border: Border.all(
+              color: SupabaseColors.emerald.withValues(alpha: 0.4),
+            ),
+          ),
+          child: Text(
+            '${employees.length}',
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: SupabaseColors.emerald,
+            ),
+          ),
+        ),
+      ],
+    ),
+    // Счётчики статусов — новая строка
+    if (employees.isNotEmpty) ...[
+      const SizedBox(height: 6),
+      StatusCountRow(
+        statusIds: [for (final e in employees) e.status],
+        statuses: statusMap,
+      ),
+    ],
+  ],
+),
+          children: [
+            if (employees.isEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  'Нет сотрудников',
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    color: SupabaseColors.textSecondary,
+                  ),
+                ),
+              )
+            else
+              for (var i = 0; i < employees.length; i++) ...[
+                if (i > 0) const SizedBox(height: 12),
+                _EmployeeTile(
+                  employee: employees[i],
+                  doljnost: doljMap[employees[i].dolj] ?? '—',
+                  status: statusMap[employees[i].status],
+                ),
+              ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _UnitData {
   final List<Employee> employees;
   final Map<int, String> doljMap;
-  final Map<int, _StatusInfo> statusMap;
+  final Map<int, StatusInfo> statusMap;
   _UnitData({
     required this.employees,
     required this.doljMap,
@@ -128,21 +287,10 @@ class _UnitData {
   });
 }
 
-class _StatusInfo {
-  final String name;
-  final Color color;
-  _StatusInfo({required this.name, required this.color});
-}
-
-Color _hexToColor(String hex) {
-  final cleaned = hex.replaceAll('#', '');
-  return Color(int.parse('FF$cleaned', radix: 16));
-}
-
 class _EmployeeTile extends StatelessWidget {
   final Employee employee;
   final String doljnost;
-  final _StatusInfo? status;
+  final StatusInfo? status;
 
   const _EmployeeTile({
     required this.employee,
@@ -150,14 +298,7 @@ class _EmployeeTile extends StatelessWidget {
     required this.status,
   });
 
-  Future<void> _call() async {
-    if (employee.tel == null || employee.tel!.isEmpty) return;
-    final uri = Uri(scheme: 'tel', path: employee.tel);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     final statusColor = status?.color ?? SupabaseColors.textSecondary;
@@ -236,14 +377,7 @@ class _EmployeeTile extends StatelessWidget {
             ),
           ),
           // Кнопка звонка
-          IconButton(
-            onPressed: employee.tel != null && employee.tel!.isNotEmpty
-                ? _call
-                : null,
-            icon: const Icon(Icons.phone_outlined),
-            color: SupabaseColors.emerald,
-            tooltip: 'Позвонить',
-          ),
+          PhoneAction(tel: employee.tel),
         ],
       ),
     );

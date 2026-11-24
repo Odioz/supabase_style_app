@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../design/theme.dart';
 import '../data/repository.dart';
 import '../widgets/content_width.dart';
+import '../widgets/status_count.dart';
 import 'unit_screen.dart';
 import 'search_screen.dart';
 
@@ -34,9 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
     final statuses = {
       for (final s in results[1] as List<Map<String, dynamic>>)
-        s['id'] as int: _StatusInfo(
+        s['id'] as int: StatusInfo(
           name: s['name'] as String,
-          color: _hexToColor(s['color'] as String),
+          color: hexToColor(s['color'] as String),
         )
     };
     return _HomeData(
@@ -208,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class _HomeData {
   final List<Map<String, dynamic>> units;
-  final Map<int, _StatusInfo> statuses;
+  final Map<int, StatusInfo> statuses;
   final Map<int, Map<int, int>> counts;
   _HomeData({
     required this.units,
@@ -217,21 +218,11 @@ class _HomeData {
   });
 }
 
-class _StatusInfo {
-  final String name;
-  final Color color;
-  _StatusInfo({required this.name, required this.color});
-}
-
-Color _hexToColor(String hex) {
-  final cleaned = hex.replaceAll('#', '');
-  return Color(int.parse('FF$cleaned', radix: 16));
-}
 
 class _UnitCard extends StatelessWidget {
   final int id;
   final String name;
-  final Map<int, _StatusInfo> statuses;
+  final Map<int, StatusInfo> statuses;
   final Map<int, int> counts;
 
   const _UnitCard({
@@ -300,7 +291,7 @@ class _UnitCard extends StatelessWidget {
                   children: [
                     for (final sid in sortedIds)
                       if ((counts[sid] ?? 0) > 0)
-                        _StatusCount(
+                        StatusCountPill(
                           count: counts[sid]!,
                           info: statuses[sid]!,
                         ),
@@ -314,28 +305,3 @@ class _UnitCard extends StatelessWidget {
   }
 }
 
-class _StatusCount extends StatelessWidget {
-  final int count;
-  final _StatusInfo info;
-  const _StatusCount({required this.count, required this.info});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: info.color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(9999),
-        border: Border.all(color: info.color.withValues(alpha: 0.4)),
-      ),
-      child: Text(
-        '$count',
-        style: GoogleFonts.inter(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          color: info.color,
-        ),
-      ),
-    );
-  }
-}

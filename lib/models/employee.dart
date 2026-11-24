@@ -5,6 +5,7 @@ class Employee {
   final int dolj;
   final String? tel;
   final int status;
+  final int karaul;
 
   const Employee({
     required this.id,
@@ -13,6 +14,7 @@ class Employee {
     required this.dolj,
     this.tel,
     required this.status,
+    required this.karaul,
   });
 
   factory Employee.fromMap(Map<String, dynamic> m) => Employee(
@@ -22,6 +24,7 @@ class Employee {
         dolj: m['dolj'] as int,
         tel: m['tel'] as String?,
         status: m['status'] as int,
+        karaul: (m['karaul'] as int?) ?? 0,
       );
 }
 class Podrazdelenie {

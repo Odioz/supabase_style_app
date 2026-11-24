@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_style_app/widgets/content_width.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../design/theme.dart';
+import '../widgets/phone_action.dart';
 import '../data/repository.dart';
 import '../models/employee.dart';
 
@@ -99,11 +99,6 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  Future<void> _call(String? tel) async {
-    if (tel == null || tel.isEmpty) return;
-    final uri = Uri(scheme: 'tel', path: tel);
-    if (await canLaunchUrl(uri)) await launchUrl(uri);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +166,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       unitName: _units[e.podr] ?? '—',
                       doljnost: _dolj[e.dolj] ?? '—',
                       status: _statuses[e.status],
-                      onCall: () => _call(e.tel),
                     );
                   },
                 ),
@@ -202,14 +196,14 @@ class _SearchResultTile extends StatelessWidget {
   final String unitName;
   final String doljnost;
   final _StatusInfo? status;
-  final VoidCallback onCall;
+  //final VoidCallback onCall;
 
   const _SearchResultTile({
     required this.employee,
     required this.unitName,
     required this.doljnost,
     required this.status,
-    required this.onCall,
+    //required this.onCall,
   });
 
   @override
@@ -269,15 +263,7 @@ class _SearchResultTile extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed:
-                employee.tel != null && employee.tel!.isNotEmpty
-                    ? onCall
-                    : null,
-            icon: const Icon(Icons.phone_outlined),
-            color: SupabaseColors.emerald,
-            tooltip: 'Позвонить',
-          ),
+          PhoneAction(tel: employee.tel),
         ],
       ),
     );
