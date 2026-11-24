@@ -2,10 +2,23 @@ import 'package:flutter/foundation.dart';
 
 /// true для смартфонов/планшетов (Android, iOS), false для десктопа и веба.
 bool get isMobileDevice {
-  if (kIsWeb) {
-    // На вебе ориентируемся на ширину окна: узкое — считаем мобильным
-    return false; // веб всегда показываем как десктоп (номер + копирование)
+
+  if (PlatformDetails().isMobile == true) {
+              return true; }{return false; }
+}
+
+
+class PlatformDetails {
+  static final PlatformDetails _singleton = PlatformDetails._internal();
+  factory PlatformDetails() {
+    return _singleton;
   }
-  return defaultTargetPlatform == TargetPlatform.android ||
-      defaultTargetPlatform == TargetPlatform.iOS;
+  PlatformDetails._internal();
+  bool get isDesktop =>
+      defaultTargetPlatform == TargetPlatform.macOS ||
+      defaultTargetPlatform == TargetPlatform.linux ||
+      defaultTargetPlatform == TargetPlatform.windows;
+  bool get isMobile =>
+      defaultTargetPlatform == TargetPlatform.iOS ||
+      defaultTargetPlatform == TargetPlatform.android;
 }
